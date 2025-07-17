@@ -5,6 +5,9 @@ on:
       new_tag:
         required: true
         type: string
+    secrets:
+      gh_token:
+        required: true
 
 jobs:
   release:
@@ -23,7 +26,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.gh_token }}
         with:
           tag_name: ${{ inputs.new_tag }}
           name: Release ${{ inputs.new_tag }}
