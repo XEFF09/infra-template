@@ -20,5 +20,5 @@ jobs:
         uses: actions/checkout@v4
       - name: Docker Build
         run: |
-          IMAGE="${{ secrets.docke_username }}/${{ inputs.app_name }}:${{ inputs.new_tag }}"
+          IMAGE="${{ secrets.docker_username }}/${{ inputs.app_name }}:${{ inputs.new_tag }}"
           docker build -f docker/gofiber/prod.Dockerfile -t "$IMAGE" .
