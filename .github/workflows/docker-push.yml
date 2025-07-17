@@ -8,10 +8,9 @@ on:
       new_tag:
         required: true
         type: string
+    secrets:
       docker_username:
         required: true
-        type: string
-    secrets:
       docker_password:
         required: true
 
@@ -22,12 +21,12 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ inputs.docker_username }}
+          username: ${{ secrets.docker_username }}
           password: ${{ secrets.docker_password }}
 
       - name: Push Docker Image
         run: |
-          IMAGE="${{ inputs.docker_username }}/${{ inputs.app_name }}"
+          IMAGE="${{ secrets.docker_username }}/${{ inputs.app_name }}"
           docker push "${IMAGE}:${{ inputs.new_tag }}"
           docker tag "${IMAGE}:${{ inputs.new_tag }}" "${IMAGE}:latest"
           docker push "${IMAGE}:latest"
