@@ -1,0 +1,19 @@
+.
+├── docker
+│   └── gofiber
+│       └── prod.Dockerfile
+├── k8s
+│   ├── backend
+│   │   └── gofiber
+│   │       └── base
+│   │           ├── deployment.yml
+│   │           └── kustomization.yml
+│   ├── database
+│   │   └── postgres
+│   │       └── base
+│   │           ├── deployment.yml
+│   │           ├── kustomization.yml
+│   │           └── volume.yml
+│   ├── frontend
+│   └── ingress.yml
+└── PROJECT_STRUCTURE
