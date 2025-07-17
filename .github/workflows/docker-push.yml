@@ -8,6 +8,11 @@ on:
       new_tag:
         required: true
         type: string
+    secrets:
+      DOCKER_PASSWORD:
+        required: true
+      DOCKER_USERNAME:
+        required: true
 
 jobs:
   docker-push:
