@@ -15,7 +15,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Docker Build
         run: |
           IMAGE="${{ secrets.DOCKER_USERNAME }}/${{ inputs.app_name }}:${{ inputs.new_tag }}"
