@@ -21,4 +21,4 @@ jobs:
       - name: Docker Build
         run: |
           IMAGE="${{ secrets.docker_username }}/${{ inputs.app_name }}:${{ inputs.new_tag }}"
-          docker build -f ../../docker/gofiber/prod.Dockerfile -t "$IMAGE" .
+          docker build -f docker/gofiber/Dockerfile -t "$IMAGE" .
