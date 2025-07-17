@@ -1,0 +1,31 @@
+name: GitHub Release
+on:
+  workflow_call:
+    inputs:
+      new_tag:
+        required: true
+        type: string
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create and Push Git Tag
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git tag ${{ inputs.new_tag }}
+          git push origin ${{ inputs.new_tag }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+        with:
+          tag_name: ${{ inputs.new_tag }}
+          name: Release ${{ inputs.new_tag }}
+          draft: false
+          prerelease: false

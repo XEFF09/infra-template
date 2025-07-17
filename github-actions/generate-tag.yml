@@ -1,0 +1,44 @@
+name: Generate Tag
+on:
+  workflow_call:
+    outputs:
+      new_tag:
+        description: "Generated tag"
+        value: ${{ jobs.generate.outputs.new_tag }}
+    inputs:
+      version_type:
+        required: false
+        type: string
+        default: patch
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    outputs:
+      new_tag: ${{ steps.set-tag.outputs.NEW_TAG }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate Next Version Tag
+        id: set-tag
+        run: |
+          VERSION_TYPE="${{ inputs.version_type }}"
+          LATEST_TAG=$(git tag --sort=-v:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1)
+          if [[ -z "$LATEST_TAG" ]]; then
+            NEW_TAG="v0.1.0"
+          else
+            MAJOR=$(echo "$LATEST_TAG" | cut -d. -f1 | tr -d 'v')
+            MINOR=$(echo "$LATEST_TAG" | cut -d. -f2)
+            PATCH=$(echo "$LATEST_TAG" | cut -d. -f3)
+            if [[ "$VERSION_TYPE" == "major" ]]; then
+              NEW_TAG="v$((MAJOR + 1)).0.0"
+            elif [[ "$VERSION_TYPE" == "minor" ]]; then
+              NEW_TAG="v$MAJOR.$((MINOR + 1)).0"
+            else
+              NEW_TAG="v$MAJOR.$MINOR.$((PATCH + 1))"
+            fi
+          fi
+          echo "NEW_TAG=$NEW_TAG" >> $GITHUB_OUTPUT

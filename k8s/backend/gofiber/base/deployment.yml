@@ -22,9 +22,15 @@ spec:
               "-c",
               "until nc -z $DB_HOST $DB_PORT; do echo waiting for db; sleep 2; done;",
             ]
+          envFrom:
+            - configMapRef:
+                name: env
       containers:
         - name: APP_NAME-be
-          image: xeff09/decauth-be:latest
+          image: xeff09/APP_NAME-be:latest
+          envFrom:
+            - configMapRef:
+                name: app-config
 ---
 apiVersion: v1
 kind: Service
