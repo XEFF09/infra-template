@@ -1,5 +1,6 @@
 # To complete the setup
 
+- rename: this repo to -> infra
 - create: your own Makefile with keyword include for desire
 
 ```Makefile
